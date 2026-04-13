@@ -19,10 +19,10 @@ const styles = `
   --radius:14px;--sidebar-w:268px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
-.shell{display:flex;height:100vh;overflow:hidden}
+.shell{display:flex;height:100vh;overflow:hidden;position:relative}
 
 /* SIDEBAR */
-.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .25s ease;z-index:200}
 .sidebar-top{padding:20px 16px 12px;display:flex;flex-direction:column;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 2px}
 .brand-icon{font-size:22px;line-height:1;color:var(--accent)}
@@ -45,12 +45,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .user-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .13s}
 .user-chip:hover{background:rgba(0,0,0,.05)}
 .avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.user-info{display:flex;flex-direction:column;gap:1px}
-.user-name{font-size:13px;font-weight:600;color:var(--text)}
-.user-plan{font-size:11.5px;color:var(--text-light)}
+
+/* OVERLAY for mobile */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:150}
+
+/* HAMBURGER */
+.hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;background:transparent;border:1px solid var(--border);border-radius:9px;cursor:pointer;color:var(--text);flex-shrink:0}
+
+/* TOPBAR (mobile only) */
+.topbar{display:none;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
+.topbar-title{font-family:'Lora',serif;font-size:17px;font-weight:600;color:var(--text);flex:1}
 
 /* MAIN */
-.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:var(--bg)}
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:var(--bg);min-width:0}
 .welcome-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px}
 .welcome-hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeUp .5s ease}
 .hero-icon{font-size:44px;color:var(--accent);margin-bottom:4px}
@@ -61,12 +68,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .chat-area{flex:1;overflow-y:auto;padding:32px 0 16px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth}
 .chat-area::-webkit-scrollbar{width:5px}
 .chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.msg-wrap{display:flex;gap:12px;padding:0 32px;max-width:820px;width:100%;margin:0 auto;animation:fadeUp .25s ease}
+.msg-wrap{display:flex;gap:12px;padding:0 20px;max-width:820px;width:100%;margin:0 auto;animation:fadeUp .25s ease}
 .msg-wrap.user{flex-direction:row-reverse}
 .ai-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.bubble-col{display:flex;flex-direction:column;gap:6px;max-width:72%}
+.bubble-col{display:flex;flex-direction:column;gap:6px;max-width:75%;min-width:0}
 .msg-wrap.user .bubble-col{align-items:flex-end}
-.bubble{padding:12px 16px;border-radius:14px;font-size:14.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.bubble{padding:12px 16px;border-radius:14px;font-size:14.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere}
 .msg-wrap.ai .bubble{background:var(--bubble-ai);color:var(--bubble-ai-text);border:1px solid var(--border);border-bottom-left-radius:4px;box-shadow:var(--shadow)}
 .msg-wrap.user .bubble{background:var(--bubble-user);color:var(--bubble-user-text);border-bottom-right-radius:4px}
 .source-pills{display:flex;gap:6px;flex-wrap:wrap}
@@ -78,7 +85,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-6px);opacity:1}}
 
 /* INPUT */
-.input-zone{padding:12px 32px 20px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.input-zone{padding:12px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .input-card{width:100%;max-width:760px;background:var(--input-bg);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:visible;position:relative}
 .chat-textarea{width:100%;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--text);resize:none;padding:14px 16px 6px;min-height:52px;max-height:160px;overflow-y:auto;line-height:1.55}
 .chat-textarea::placeholder{color:var(--text-light)}
@@ -97,6 +104,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 @keyframes spin{to{transform:rotate(360deg)}}
 .disclaimer{font-size:11.5px;color:var(--text-light);text-align:center}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* MOBILE */
+@media(max-width:680px){
+  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.show{display:block}
+  .hamburger{display:flex}
+  .topbar{display:flex}
+  .main{height:calc(100vh - 53px);margin-top:53px}
+  .chat-area{padding:16px 0 8px}
+  .msg-wrap{padding:0 12px}
+  .input-zone{padding:8px 12px 16px}
+  .welcome-title{font-size:26px}
+  .bubble{font-size:14px}
+  .bubble-col{max-width:85%}
+}
 `;
 
 export default function App() {
@@ -107,6 +130,7 @@ export default function App() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showUploadMenu, setShowUploadMenu] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatRef = useRef(null);
   const uploadMenuRef = useRef(null);
 
@@ -125,6 +149,8 @@ export default function App() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  const closeSidebar = () => setSidebarOpen(false);
 
   const updateMessages = (id, updater) =>
     setSessions((prev) =>
@@ -160,7 +186,7 @@ export default function App() {
     } catch {
       updateMessages(sid, (msgs) => [
         ...msgs,
-        { role: "ai", text: "⚠️ Could not reach server. Make sure FastAPI is running on port 8000.", sources: [] },
+        { role: "ai", text: "⚠️ Could not reach server.", sources: [] },
       ]);
     }
     setLoading(false);
@@ -197,7 +223,7 @@ export default function App() {
         ]);
       }
     } catch {
-      updateMessages(sid, (msgs) => [...msgs, { role: "ai", text: `❌ Upload failed. Check your FastAPI server.`, sources: [] }]);
+      updateMessages(sid, (msgs) => [...msgs, { role: "ai", text: `❌ Upload failed.`, sources: [] }]);
     }
     setLoading(false);
     e.target.value = "";
@@ -207,6 +233,7 @@ export default function App() {
     const id = ++sessionCounter;
     setSessions((prev) => [{ id, name: "New Chat", messages: [{ role: "ai", text: WELCOME }] }, ...prev]);
     setActiveId(id);
+    closeSidebar();
   };
 
   const deleteSession = (e, id) => {
@@ -228,9 +255,23 @@ export default function App() {
   return (
     <>
       <style>{styles}</style>
+
+      {/* MOBILE TOPBAR */}
+      <div className="topbar">
+        <button className="hamburger" onClick={() => setSidebarOpen(true)}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <span className="topbar-title">⚖ Law AI</span>
+      </div>
+
       <div className="shell">
+        {/* OVERLAY */}
+        <div className={`sidebar-overlay ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
+
         {/* SIDEBAR */}
-        <aside className="sidebar">
+        <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           <div className="sidebar-top">
             <div className="brand">
               <div className="brand-icon">⚖</div>
@@ -250,13 +291,13 @@ export default function App() {
               <div
                 key={s.id}
                 className={`session-item ${s.id === activeId ? "active" : ""}`}
-                onClick={() => setActiveId(s.id)}
+                onClick={() => { setActiveId(s.id); closeSidebar(); }}
               >
-                <svg className="chat-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
                 <span className="session-name">{s.name}</span>
-                <button className="delete-btn" onClick={(e) => deleteSession(e, s.id)} title="Delete chat">
+                <button className="delete-btn" onClick={(e) => deleteSession(e, s.id)}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="3 6 5 6 21 6"/>
                     <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
@@ -267,8 +308,6 @@ export default function App() {
               </div>
             ))}
           </div>
-
-
         </aside>
 
         {/* MAIN */}
@@ -305,7 +344,6 @@ export default function App() {
             </div>
           )}
 
-          {/* INPUT */}
           <div className="input-zone">
             <div className="input-card">
               <textarea
@@ -322,7 +360,7 @@ export default function App() {
               />
               <div className="input-actions">
                 <div className="upload-wrapper" ref={uploadMenuRef}>
-                  <button className="action-btn plus-btn" onClick={() => setShowUploadMenu(v => !v)} title="Upload file">
+                  <button className="action-btn" onClick={() => setShowUploadMenu(v => !v)}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                       <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                     </svg>
@@ -371,4 +409,3 @@ export default function App() {
     </>
   );
 }
-

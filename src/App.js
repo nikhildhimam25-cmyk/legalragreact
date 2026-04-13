@@ -16,59 +16,54 @@ const styles = `
   --border:#e0dfd8;--input-bg:#ffffff;
   --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
   --shadow-lg:0 8px 32px rgba(0,0,0,.12);
-  --radius:14px;--sidebar-w:268px;
+  --sidebar-w:268px;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
-.shell{display:flex;height:100vh;overflow:hidden;position:relative}
+html{height:-webkit-fill-available}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;min-height:100vh;min-height:-webkit-fill-available}
+.app-wrapper{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
+
+/* TOPBAR - mobile only */
+.topbar{display:none;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;height:52px}
+.topbar-brand{font-family:'Lora',serif;font-size:17px;font-weight:600;color:var(--text);flex:1;display:flex;align-items:center;gap:8px}
+.hamburger{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:transparent;border:1px solid var(--border);border-radius:9px;cursor:pointer;color:var(--text);flex-shrink:0}
+
+.shell{display:flex;flex:1;overflow:hidden;position:relative;min-height:0}
 
 /* SIDEBAR */
-.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;height:100vh;overflow:hidden;transition:transform .25s ease;z-index:200}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;height:100%;overflow:hidden;z-index:200;transition:transform .25s ease}
 .sidebar-top{padding:20px 16px 12px;display:flex;flex-direction:column;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 2px}
-.brand-icon{font-size:22px;line-height:1;color:var(--accent)}
+.brand-icon{font-size:22px;color:var(--accent)}
 .brand-name{font-family:'Lora',serif;font-size:19px;font-weight:600;letter-spacing:-.3px;color:var(--text)}
-.new-chat-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s}
+.new-chat-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s}
 .new-chat-btn:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
 .recents-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);padding:4px 18px 6px}
 .sessions-list{flex:1;overflow-y:auto;padding:0 8px;display:flex;flex-direction:column;gap:2px}
 .sessions-list::-webkit-scrollbar{width:4px}
 .sessions-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.session-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .13s;position:relative}
+.session-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .13s}
 .session-item:hover{background:rgba(0,0,0,.05)}
 .session-item.active{background:var(--accent-light)}
-.session-name{flex:1;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4}
+.session-name{flex:1;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .session-item.active .session-name{color:var(--accent);font-weight:500}
-.delete-btn{display:none;align-items:center;justify-content:center;width:24px;height:24px;background:transparent;border:none;border-radius:6px;color:var(--text-muted);cursor:pointer;flex-shrink:0;transition:background .13s,color .13s}
+.delete-btn{display:none;align-items:center;justify-content:center;width:24px;height:24px;background:transparent;border:none;border-radius:6px;color:var(--text-muted);cursor:pointer;flex-shrink:0}
 .session-item:hover .delete-btn{display:flex}
 .delete-btn:hover{background:#ffe4e4;color:#c0392b}
-.sidebar-footer{padding:12px 12px 16px;border-top:1px solid var(--sidebar-border)}
-.user-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .13s}
-.user-chip:hover{background:rgba(0,0,0,.05)}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-
-/* OVERLAY for mobile */
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:150}
 
-/* HAMBURGER */
-.hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;background:transparent;border:1px solid var(--border);border-radius:9px;cursor:pointer;color:var(--text);flex-shrink:0}
-
-/* TOPBAR (mobile only) */
-.topbar{display:none;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
-.topbar-title{font-family:'Lora',serif;font-size:17px;font-weight:600;color:var(--text);flex:1}
-
 /* MAIN */
-.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:var(--bg);min-width:0}
-.welcome-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px}
-.welcome-hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeUp .5s ease}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);min-width:0;min-height:0}
+.welcome-screen{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;overflow-y:auto}
+.welcome-hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
 .hero-icon{font-size:44px;color:var(--accent);margin-bottom:4px}
 .welcome-title{font-family:'Lora',serif;font-size:36px;font-weight:600;letter-spacing:-.5px;color:var(--text)}
 .welcome-sub{font-size:15px;color:var(--text-muted);max-width:380px;line-height:1.6}
 
 /* CHAT */
-.chat-area{flex:1;overflow-y:auto;padding:32px 0 16px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth}
+.chat-area{flex:1;overflow-y:auto;padding:32px 0 16px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth;min-height:0}
 .chat-area::-webkit-scrollbar{width:5px}
 .chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.msg-wrap{display:flex;gap:12px;padding:0 20px;max-width:820px;width:100%;margin:0 auto;animation:fadeUp .25s ease}
+.msg-wrap{display:flex;gap:12px;padding:0 20px;max-width:820px;width:100%;margin:0 auto}
 .msg-wrap.user{flex-direction:row-reverse}
 .ai-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .bubble-col{display:flex;flex-direction:column;gap:6px;max-width:75%;min-width:0}
@@ -85,40 +80,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-6px);opacity:1}}
 
 /* INPUT */
-.input-zone{padding:12px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:8px}
-.input-card{width:100%;max-width:760px;background:var(--input-bg);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:visible;position:relative}
+.input-zone{padding:12px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;background:var(--bg)}
+.input-card{width:100%;max-width:760px;background:var(--input-bg);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column}
 .chat-textarea{width:100%;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--text);resize:none;padding:14px 16px 6px;min-height:52px;max-height:160px;overflow-y:auto;line-height:1.55}
 .chat-textarea::placeholder{color:var(--text-light)}
 .input-actions{display:flex;align-items:center;justify-content:space-between;padding:8px 10px 10px;gap:8px}
-.action-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .13s,color .13s,border-color .13s}
+.action-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .13s}
 .action-btn:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
 .upload-wrapper{position:relative}
-.upload-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);overflow:hidden;min-width:170px;z-index:100;animation:menuPop .15s ease}
-@keyframes menuPop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.upload-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);overflow:hidden;min-width:170px;z-index:100}
 .upload-option{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;font-size:13.5px;color:var(--text);transition:background .12s;font-family:'DM Sans',sans-serif}
 .upload-option:hover{background:var(--accent-light);color:var(--accent)}
-.send-btn{width:36px;height:36px;border-radius:10px;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .13s,transform .1s;flex-shrink:0}
-.send-btn:hover:not(:disabled){background:#b55a2c;transform:scale(1.05)}
+.send-btn{width:36px;height:36px;border-radius:10px;background:var(--accent);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .13s;flex-shrink:0}
+.send-btn:hover:not(:disabled){background:#b55a2c}
 .send-btn:disabled{background:var(--border);cursor:not-allowed;color:var(--text-light)}
 .spin{animation:spin .9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .disclaimer{font-size:11.5px;color:var(--text-light);text-align:center}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* MOBILE */
 @media(max-width:680px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%)}
+  .topbar{display:flex}
+  .sidebar{position:fixed;left:0;top:0;height:100%;transform:translateX(-100%)}
   .sidebar.open{transform:translateX(0)}
   .sidebar-overlay.show{display:block}
-  .hamburger{display:flex}
-  .topbar{display:flex}
-  .main{height:calc(100vh - 53px);margin-top:53px}
-  .chat-area{padding:16px 0 8px}
-  .msg-wrap{padding:0 12px}
-  .input-zone{padding:8px 12px 16px}
-  .welcome-title{font-size:26px}
+  .welcome-title{font-size:24px}
+  .hero-icon{font-size:36px}
   .bubble{font-size:14px}
   .bubble-col{max-width:85%}
+  .msg-wrap{padding:0 12px}
+  .input-zone{padding:8px 12px 16px}
+  .chat-area{padding:12px 0 8px}
+  .disclaimer{font-size:11px}
 }
 `;
 
@@ -255,156 +248,169 @@ export default function App() {
   return (
     <>
       <style>{styles}</style>
+      <div className="app-wrapper">
 
-      {/* MOBILE TOPBAR */}
-      <div className="topbar">
-        <button className="hamburger" onClick={() => setSidebarOpen(true)}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
-        <span className="topbar-title">⚖ Law AI</span>
-      </div>
+        {/* MOBILE TOPBAR */}
+        <div className="topbar">
+          <button className="hamburger" onClick={() => setSidebarOpen(true)}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <span className="topbar-brand">
+            {/* Scales of justice icon */}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c96b3a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="2" x2="12" y2="22"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              <polyline points="6 3 12 2 18 3"/>
+              <polyline points="6 21 12 22 18 21"/>
+            </svg>
+            Law AI
+          </span>
+        </div>
 
-      <div className="shell">
-        {/* OVERLAY */}
-        <div className={`sidebar-overlay ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
+        <div className="shell">
+          <div className={`sidebar-overlay ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
 
-        {/* SIDEBAR */}
-        <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-          <div className="sidebar-top">
-            <div className="brand">
-              <div className="brand-icon">⚖</div>
-              <span className="brand-name">Law AI</span>
-            </div>
-            <button className="new-chat-btn" onClick={newChat}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              New chat
-            </button>
-          </div>
-
-          <div className="recents-label">Recents</div>
-          <div className="sessions-list">
-            {sessions.map((s) => (
-              <div
-                key={s.id}
-                className={`session-item ${s.id === activeId ? "active" : ""}`}
-                onClick={() => { setActiveId(s.id); closeSidebar(); }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          {/* SIDEBAR */}
+          <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+            <div className="sidebar-top">
+              <div className="brand">
+                <div className="brand-icon">⚖</div>
+                <span className="brand-name">Law AI</span>
+              </div>
+              <button className="new-chat-btn" onClick={newChat}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
-                <span className="session-name">{s.name}</span>
-                <button className="delete-btn" onClick={(e) => deleteSession(e, s.id)}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                    <path d="M10 11v6"/><path d="M14 11v6"/>
-                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-                  </svg>
-                </button>
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        {/* MAIN */}
-        <main className="main">
-          {isWelcomeScreen ? (
-            <div className="welcome-screen">
-              <div className="welcome-hero">
-                <div className="hero-icon">⚖</div>
-                <h1 className="welcome-title">Welcome, Buddy</h1>
-                <p className="welcome-sub">Ask anything or upload a document to get started.</p>
-              </div>
+                New chat
+              </button>
             </div>
-          ) : (
-            <div className="chat-area" ref={chatRef}>
-              {messages.map((msg, i) => (
-                <div key={i} className={`msg-wrap ${msg.role}`}>
-                  {msg.role === "ai" && <div className="ai-avatar">⚖</div>}
-                  <div className="bubble-col">
-                    <div className="bubble">{msg.text}</div>
-                    {msg.role === "ai" && msg.sources?.length > 0 && (
-                      <div className="source-pills">
-                        {msg.sources.map((_, j) => <span key={j} className="pill">Source {j+1}</span>)}
+            <div className="recents-label">Recents</div>
+            <div className="sessions-list">
+              {sessions.map((s) => (
+                <div
+                  key={s.id}
+                  className={`session-item ${s.id === activeId ? "active" : ""}`}
+                  onClick={() => { setActiveId(s.id); closeSidebar(); }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  <span className="session-name">{s.name}</span>
+                  <button className="delete-btn" onClick={(e) => deleteSession(e, s.id)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                      <path d="M10 11v6"/><path d="M14 11v6"/>
+                      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          {/* MAIN */}
+          <main className="main">
+            {isWelcomeScreen ? (
+              <div className="welcome-screen">
+                <div className="welcome-hero">
+                  <div className="hero-icon">⚖</div>
+                  <h1 className="welcome-title">Welcome, Buddy</h1>
+                  <p className="welcome-sub">Ask anything or upload a document to get started.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="chat-area" ref={chatRef}>
+                {messages.map((msg, i) => (
+                  <div key={i} className={`msg-wrap ${msg.role}`}>
+                    {msg.role === "ai" && <div className="ai-avatar">⚖</div>}
+                    <div className="bubble-col">
+                      <div className="bubble">{msg.text}</div>
+                      {msg.role === "ai" && msg.sources?.length > 0 && (
+                        <div className="source-pills">
+                          {msg.sources.map((_, j) => <span key={j} className="pill">Source {j+1}</span>)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {loading && (
+                  <div className="msg-wrap ai">
+                    <div className="ai-avatar">⚖</div>
+                    <div className="typing-dots"><span/><span/><span/></div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="input-zone">
+              <div className="input-card">
+                <textarea
+                  className="chat-textarea"
+                  rows={1}
+                  placeholder="Ask Law AI anything…"
+                  value={input}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    e.target.style.height = "auto";
+                    e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
+                  }}
+                  onKeyDown={handleKey}
+                />
+                <div className="input-actions">
+                  <div className="upload-wrapper" ref={uploadMenuRef}>
+                    <button className="action-btn" onClick={() => setShowUploadMenu(v => !v)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                      </svg>
+                    </button>
+                    {showUploadMenu && (
+                      <div className="upload-menu">
+                        <label className="upload-option">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                          </svg>
+                          <span>Upload PDF</span>
+                          <input type="file" accept=".pdf" style={{display:"none"}}
+                            onChange={(e) => uploadFile(e, "/upload-pdf", "📄 Uploading PDF")}/>
+                        </label>
+                        <label className="upload-option">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                          </svg>
+                          <span>Upload Image</span>
+                          <input type="file" accept="image/*" style={{display:"none"}}
+                            onChange={(e) => uploadFile(e, "/upload-image", "🖼️ Analyzing image")}/>
+                        </label>
                       </div>
                     )}
                   </div>
-                </div>
-              ))}
-              {loading && (
-                <div className="msg-wrap ai">
-                  <div className="ai-avatar">⚖</div>
-                  <div className="typing-dots"><span/><span/><span/></div>
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="input-zone">
-            <div className="input-card">
-              <textarea
-                className="chat-textarea"
-                rows={1}
-                placeholder="Ask Law AI anything…"
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                  e.target.style.height = "auto";
-                  e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
-                }}
-                onKeyDown={handleKey}
-              />
-              <div className="input-actions">
-                <div className="upload-wrapper" ref={uploadMenuRef}>
-                  <button className="action-btn" onClick={() => setShowUploadMenu(v => !v)}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                    </svg>
+                  <button className="send-btn" onClick={sendMessage} disabled={loading || !input.trim()}>
+                    {loading ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="spin">
+                        <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeDashoffset="10"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
+                      </svg>
+                    )}
                   </button>
-                  {showUploadMenu && (
-                    <div className="upload-menu">
-                      <label className="upload-option">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                          <polyline points="14 2 14 8 20 8"/>
-                        </svg>
-                        <span>Upload PDF</span>
-                        <input type="file" accept=".pdf" style={{display:"none"}}
-                          onChange={(e) => uploadFile(e, "/upload-pdf", "📄 Uploading PDF")}/>
-                      </label>
-                      <label className="upload-option">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                          <rect x="3" y="3" width="18" height="18" rx="2"/>
-                          <circle cx="8.5" cy="8.5" r="1.5"/>
-                          <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                        <span>Upload Image</span>
-                        <input type="file" accept="image/*" style={{display:"none"}}
-                          onChange={(e) => uploadFile(e, "/upload-image", "🖼️ Analyzing image")}/>
-                      </label>
-                    </div>
-                  )}
                 </div>
-                <button className="send-btn" onClick={sendMessage} disabled={loading || !input.trim()}>
-                  {loading ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="spin">
-                      <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeDashoffset="10"/>
-                    </svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
-                    </svg>
-                  )}
-                </button>
               </div>
+              <p className="disclaimer">Law AI can make mistakes. Verify important legal information.</p>
             </div>
-            <p className="disclaimer">Law AI can make mistakes. Verify important legal information.</p>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </>
   );

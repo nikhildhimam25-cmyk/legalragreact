@@ -583,7 +583,7 @@ export default function App() {
           ...msgs,
           {
             role: "ai",
-            text: `✅ PDF uploaded! ${data.chunks || ""} chunks indexed. Ask me anything about it.`,
+            text: `✅ PDF uploaded! ${data.chunks || ""} . Ask me anything about it.`,
             sources: [],
           },
         ]);
